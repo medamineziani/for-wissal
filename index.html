@@ -1,188 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For Wissal 💖</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #fff0f5, #ffd6e8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
-  }
+:root{
+  --pink:#ff6f91;
+  --soft-pink:#fff1f6;
+  --gray:#bdbdbd;
+}
 
-  /* floating hearts */
-  .bg-heart {
-    position: fixed;
-    bottom: -40px;
-    font-size: 18px;
-    animation: floatUp 8s linear infinite;
-    opacity: 0.4;
-    pointer-events: none;
-  }
+*{ box-sizing:border-box; }
 
-  @keyframes floatUp {
-    to { transform: translateY(-110vh); }
-  }
+body{
+  margin:0;
+  height:100vh;
+  background: linear-gradient(135deg,#fff5f8,#ffe3ec);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: "Poppins", system-ui, sans-serif;
+  overflow:hidden;
+}
 
-  .card {
-    background: white;
-    padding: 50px 45px 70px;
-    border-radius: 35px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-    text-align: center;
-    width: 360px;
-    position: relative;
-    z-index: 2;
-  }
+/* floating hearts background */
+.heart{
+  position:fixed;
+  bottom:-40px;
+  font-size:16px;
+  opacity:.35;
+  animation: floatUp 10s linear infinite;
+  pointer-events:none;
+}
 
-  h1 {
-    color: #ff5c8a;
-    font-size: 30px;
-    margin-bottom: 40px;
-  }
+@keyframes floatUp{
+  to{ transform:translateY(-120vh); }
+}
 
-  /* BUTTON ROW */
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 30px; /* 👈 REAL SPACING */
-    position: relative;
-  }
+/* main card */
+.card{
+  background:white;
+  width:360px;
+  padding:50px 40px 60px;
+  border-radius:32px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,.12);
+  position:relative;
+  z-index:2;
+  animation: fadeIn .8s ease;
+}
 
-  button {
-    border: none;
-    border-radius: 50px;
-    padding: 14px 32px;
-    font-size: 18px;
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{ opacity:1; transform:none; }
+}
 
-    /* 👇 LOCK SIZE FOREVER */
-    width: 140px;
-    height: 52px;
-  }
+h1{
+  color:var(--pink);
+  font-size:28px;
+  margin-bottom:14px;
+}
 
-  #yes {
-    background: #ff5c8a;
-    color: white;
-  }
+.subtitle{
+  color:#888;
+  font-size:15px;
+  margin-bottom:40px;
+}
 
-  #no {
-    background: #b5b5b5;
-    color: white;
-    position: relative; /* start inside card */
-  }
+/* buttons */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:26px;
+}
 
-  .note {
-    margin-top: 26px;
-    font-size: 14px;
-    color: #ff5c8a;
-    opacity: 0.8;
-  }
+button{
+  width:140px;
+  height:52px;
+  border:none;
+  border-radius:30px;
+  font-size:17px;
+  cursor:pointer;
+  user-select:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
 
-  /* sparkles */
-  .sparkle {
-    position: fixed;
-    font-size: 22px;
-    animation: sparkle 3s linear forwards;
-    pointer-events: none;
-  }
+#yes{
+  background:var(--pink);
+  color:white;
+  box-shadow:0 10px 25px rgba(255,111,145,.45);
+}
 
-  @keyframes sparkle {
-    to {
-      transform: translateY(-400px) scale(1.4);
-      opacity: 0;
-    }
+#yes:hover{
+  transform:scale(1.05);
+}
+
+#no{
+  background:var(--gray);
+  color:white;
+}
+
+.note{
+  margin-top:26px;
+  font-size:13px;
+  color:var(--pink);
+  opacity:.8;
+}
+
+/* sparkles */
+.sparkle{
+  position:fixed;
+  font-size:20px;
+  animation:sparkle 3s ease forwards;
+  pointer-events:none;
+}
+
+@keyframes sparkle{
+  to{
+    transform:translateY(-350px) scale(1.4);
+    opacity:0;
   }
+}
 </style>
 </head>
 
 <body>
 
 <div class="card" id="card">
-  <h1>Wissal 💕<br>Will you be my Valentine?</h1>
+  <h1>Wissal 💕</h1>
+  <div class="subtitle">
+    Will you be my Valentine?
+  </div>
 
   <div class="buttons">
     <button id="yes">Yes 💖</button>
     <button id="no">No 💔</button>
   </div>
 
-  <div class="note">No is not a choice 😌</div>
+  <div class="note">
+    No is not really an option dzl hhhhhh 😌
+  </div>
 </div>
 
-<audio id="yesSound">
+<audio id="sound">
   <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-902.mp3">
 </audio>
 
 <script>
-  const noBtn = document.getElementById("no");
-  const yesBtn = document.getElementById("yes");
-  const card = document.getElementById("card");
-  const sound = document.getElementById("yesSound");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const card = document.getElementById("card");
+const sound = document.getElementById("sound");
 
-  let scale = 1;
-  let escaped = false;
+let scale = 1;
+let escaped = false;
 
-  function escapeNo() {
-    if (!escaped) {
-      escaped = true;
-      noBtn.style.position = "fixed"; // move to screen
-    }
-
-    const padding = 20;
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-
-    noBtn.style.left = Math.random() * maxX + "px";
-    noBtn.style.top = Math.random() * maxY + "px";
-
-    scale += 0.15;
-    yesBtn.style.transform = `scale(${scale})`;
+/* classy escape (fast but smooth) */
+function escape(){
+  if(!escaped){
+    noBtn.style.position="fixed";
+    escaped=true;
   }
+  const x = Math.random()*(window.innerWidth-160);
+  const y = Math.random()*(window.innerHeight-70);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
 
-  // INSTANT reaction
-  noBtn.addEventListener("mouseenter", escapeNo);
-  noBtn.addEventListener("mouseover", escapeNo);
+  scale += .12;
+  yesBtn.style.transform = `scale(${scale})`;
+}
 
-  // YES click magic 💖
-  yesBtn.addEventListener("click", () => {
-    sound.play();
+noBtn.addEventListener("mouseenter", escape);
+noBtn.addEventListener("mouseover", escape);
 
-    card.innerHTML = `
-      <h1>✨ YAAAY ✨</h1>
-      <p style="font-size:20px;color:#ff5c8a;">
-        You are the most beautiful girl 💖<br>
-        I’m so happy 😍
-      </p>
-    `;
+/* YES click */
+yesBtn.addEventListener("click",()=>{
+  sound.play();
+  card.innerHTML = `
+    <h1>✨ YAAAY ✨</h1>
+    <div class="subtitle" style="color:var(--pink)">
+      You are the most beautiful girl 💖<br>
+      dzl ntl9aw le 14 azwina hhhhhh 🌸
+    </div>
+  `;
 
-    for (let i = 0; i < 40; i++) {
-      const el = document.createElement("div");
-      el.className = "sparkle";
-      el.style.left = Math.random() * window.innerWidth + "px";
-      el.style.bottom = "0";
-      el.innerHTML = Math.random() > 0.5 ? "✨" : "🌸";
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 3000);
-    }
-  });
+  for(let i=0;i<35;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.bottom="0";
+    s.innerHTML=Math.random()>.5?"✨":"🌸";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),3000);
+  }
+});
 
-  // background hearts
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "bg-heart";
-    heart.style.left = Math.random() * window.innerWidth + "px";
-    heart.innerHTML = "💖";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 8000);
-  }, 600);
+/* background hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*window.innerWidth+"px";
+  h.innerHTML="💖";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+},700);
 </script>
 
 </body>
