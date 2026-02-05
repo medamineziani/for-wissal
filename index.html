@@ -1,153 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>For Wissal 💖</title>
-
-<style>
-:root{
-  --pink:#ff6f91;
-  --soft-pink:#fff1f6;
-  --gray:#bdbdbd;
-}
-
-*{ box-sizing:border-box; }
-
-body{
-  margin:0;
-  height:100vh;
-  background: linear-gradient(135deg,#fff5f8,#ffe3ec);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family: "Poppins", system-ui, sans-serif;
-  overflow:hidden;
-}
-
-/* floating hearts background */
-.heart{
-  position:fixed;
-  bottom:-40px;
-  font-size:16px;
-  opacity:.35;
-  animation: floatUp 10s linear infinite;
-  pointer-events:none;
-}
-
-@keyframes floatUp{
-  to{ transform:translateY(-120vh); }
-}
-
-/* main card */
-.card{
-  background:white;
-  width:360px;
-  padding:50px 40px 60px;
-  border-radius:32px;
-  text-align:center;
-  box-shadow:0 30px 60px rgba(0,0,0,.12);
-  position:relative;
-  z-index:2;
-  animation: fadeIn .8s ease;
-}
-
-@keyframes fadeIn{
-  from{ opacity:0; transform:translateY(20px); }
-  to{ opacity:1; transform:none; }
-}
-
-h1{
-  color:var(--pink);
-  font-size:28px;
-  margin-bottom:14px;
-}
-
-.subtitle{
-  color:#888;
-  font-size:15px;
-  margin-bottom:40px;
-}
-
-/* buttons */
-.buttons{
-  display:flex;
-  justify-content:center;
-  gap:26px;
-}
-
-button{
-  width:140px;
-  height:52px;
-  border:none;
-  border-radius:30px;
-  font-size:17px;
-  cursor:pointer;
-  user-select:none;
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-
-#yes{
-  background:var(--pink);
-  color:white;
-  box-shadow:0 10px 25px rgba(255,111,145,.45);
-}
-
-#yes:hover{
-  transform:scale(1.05);
-}
-
-#no{
-  background:var(--gray);
-  color:white;
-}
-
-.note{
-  margin-top:26px;
-  font-size:13px;
-  color:var(--pink);
-  opacity:.8;
-}
-
-/* sparkles */
-.sparkle{
-  position:fixed;
-  font-size:20px;
-  animation:sparkle 3s ease forwards;
-  pointer-events:none;
-}
-
-@keyframes sparkle{
-  to{
-    transform:translateY(-350px) scale(1.4);
-    opacity:0;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="card" id="card">
-  <h1>Wissal 💕</h1>
-  <div class="subtitle">
-    Will you be my Valentine?
-  </div>
-
-  <div class="buttons">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 💔</button>
-  </div>
-
-  <div class="note">
-    No is not really an option dzl hhhhhh 😌
-  </div>
-</div>
-
-<audio id="sound">
-  <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-902.mp3">
-</audio>
-
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
@@ -156,8 +6,9 @@ const sound = document.getElementById("sound");
 
 let scale = 1;
 let escaped = false;
+let step = 0;
 
-/* classy escape (fast but smooth) */
+/* escape NO */
 function escape(){
   if(!escaped){
     noBtn.style.position="fixed";
@@ -175,18 +26,56 @@ function escape(){
 noBtn.addEventListener("mouseenter", escape);
 noBtn.addEventListener("mouseover", escape);
 
+/* pages content */
+const pages = [
+  `
+    <h1>✨ YAAAY ✨</h1>
+    <div class="subtitle" style="color:var(--pink)">
+      I knew it 💖<br>
+      Let me tell you something…
+    </div>
+    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
+  `,
+  `
+    <h1>Why I like you 💕</h1>
+    <div class="subtitle">
+      Because your smile fixes my mood ✨<br>
+      Because you are kind, smart & special 🌸<br>
+      And because you’re YOU 💖
+    </div>
+    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
+  `,
+  `
+    <h1>Your positive things 🌷</h1>
+    <div class="subtitle">
+      ✨ Beautiful<br>
+      ✨ Caring<br>
+      ✨ Funny<br>
+      ✨ Strong<br>
+      ✨ My favorite person 💕
+    </div>
+    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
+  `,
+  `
+    <h1>Negative things 😌</h1>
+    <div class="subtitle" style="color:var(--pink)">
+      Nothing.<br>
+      Absolutely nothing 💖
+    </div>
+  `
+];
+
+function nextPage(){
+  step++;
+  card.innerHTML = pages[step];
+}
+
 /* YES click */
 yesBtn.addEventListener("click",()=>{
   sound.play();
-  card.innerHTML = `
-    <h1>✨ YAAAY ✨</h1>
-    <div class="subtitle" style="color:var(--pink)">
-      You are the most beautiful girl 💖<br>
-      dzl ntl9aw le 14 azwina hhhhhh 🌸
-    </div>
-  `;
+  card.innerHTML = pages[0];
 
-  for(let i=0;i<35;i++){
+  for(let i=0;i<30;i++){
     const s=document.createElement("div");
     s.className="sparkle";
     s.style.left=Math.random()*window.innerWidth+"px";
@@ -207,6 +96,3 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),10000);
 },700);
 </script>
-
-</body>
-</html>
