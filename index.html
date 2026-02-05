@@ -1,98 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Wissal 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f5f5f7;
+  --card:#ffffff;
+  --text:#1d1d1f;
+  --sub:#6e6e73;
+  --accent:#ff2d55;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:Inter, sans-serif;
+  background:var(--bg);
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* card */
+.card{
+  width:420px;
+  background:white;
+  border-radius:32px;
+  padding:50px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
+  transition:.4s;
+}
+
+.fade{
+  opacity:0;
+  transform:scale(.95);
+  filter:blur(10px);
+}
+
+h1{margin-bottom:10px;}
+.subtitle{
+  color:var(--sub);
+  margin-bottom:30px;
+  line-height:1.6;
+}
+
+button{
+  border:none;
+  border-radius:999px;
+  padding:14px 26px;
+  margin:6px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--accent);
+  color:white;
+}
+
+.secondary{
+  background:#eee;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+
+.sparkle{
+  position:fixed;
+  font-size:18px;
+  animation:spark 3s forwards;
+}
+@keyframes spark{to{transform:translateY(-260px);opacity:0;}}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1>Wissal 🤍</h1>
+  <div class="subtitle">
+    Do you accept to be the love of my life?
+  </div>
+
+  <button class="primary" id="yes">Yes</button>
+  <button class="secondary" id="no">No</button>
+
+  <div style="margin-top:15px;color:#888;font-size:13px">
+    No is not an option 🙂
+  </div>
+</div>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c7d6c.mp3">
+</audio>
+
 <script>
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-const card = document.getElementById("card");
-const sound = document.getElementById("sound");
+const card=document.getElementById("card");
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const music=document.getElementById("music");
 
-let scale = 1;
-let escaped = false;
-let step = 0;
-
-/* escape NO */
-function escape(){
-  if(!escaped){
-    noBtn.style.position="fixed";
-    escaped=true;
-  }
-  const x = Math.random()*(window.innerWidth-160);
-  const y = Math.random()*(window.innerHeight-70);
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
-
-  scale += .12;
-  yesBtn.style.transform = `scale(${scale})`;
+/* vibration */
+function vibrate(ms=40){
+ if(navigator.vibrate) navigator.vibrate(ms);
 }
 
-noBtn.addEventListener("mouseenter", escape);
-noBtn.addEventListener("mouseover", escape);
-
-/* pages content */
-const pages = [
-  `
-    <h1>✨ YAAAY ✨</h1>
-    <div class="subtitle" style="color:var(--pink)">
-      I knew it 💖<br>
-      Let me tell you something…
-    </div>
-    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
-  `,
-  `
-    <h1>Why I like you 💕</h1>
-    <div class="subtitle">
-      Because your smile fixes my mood ✨<br>
-      Because you are kind, smart & special 🌸<br>
-      And because you’re YOU 💖
-    </div>
-    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
-  `,
-  `
-    <h1>Your positive things 🌷</h1>
-    <div class="subtitle">
-      ✨ Beautiful<br>
-      ✨ Caring<br>
-      ✨ Funny<br>
-      ✨ Strong<br>
-      ✨ My favorite person 💕
-    </div>
-    <button onclick="nextPage()" style="margin-top:25px">Next ➜</button>
-  `,
-  `
-    <h1>Negative things 😌</h1>
-    <div class="subtitle" style="color:var(--pink)">
-      Nothing.<br>
-      Absolutely nothing 💖
-    </div>
-  `
-];
-
-function nextPage(){
-  step++;
-  card.innerHTML = pages[step];
+/* NO move */
+function moveNo(){
+ const x=Math.random()*(window.innerWidth-100);
+ const y=Math.random()*(window.innerHeight-50);
+ no.style.position="fixed";
+ no.style.left=x+"px";
+ no.style.top=y+"px";
+ vibrate(10);
 }
+no.addEventListener("mouseover",moveNo);
+no.addEventListener("click",moveNo);
 
-/* YES click */
-yesBtn.addEventListener("click",()=>{
-  sound.play();
-  card.innerHTML = pages[0];
+/* pages */
+const pages={
+home:`
+<h1>Welcome 🤍</h1>
+<div class="subtitle">
+Now you can go wherever you want.
+</div>
 
-  for(let i=0;i<30;i++){
-    const s=document.createElement("div");
-    s.className="sparkle";
-    s.style.left=Math.random()*window.innerWidth+"px";
-    s.style.bottom="0";
-    s.innerHTML=Math.random()>.5?"✨":"🌸";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),3000);
-  }
+<div class="grid">
+<button class="primary" onclick="go('why')">Why I like you</button>
+<button class="primary" onclick="go('positive')">Your positives</button>
+<button class="primary" onclick="go('future')">Our future</button>
+<button class="primary" onclick="go('message')">Last message</button>
+</div>
+`,
+
+why:`
+<h1>Why I like you</h1>
+<div class="subtitle">
+You make things feel calm.<br>
+You make my days better.<br>
+Talking with you feels natural.<br>
+And I genuinely enjoy every moment with you.
+</div>
+<button class="secondary" onclick="go('home')">Back</button>
+`,
+
+positive:`
+<h1>Your positives</h1>
+<div class="subtitle">
+Beautiful soul.<br>
+Kind heart.<br>
+Smart mind.<br>
+Your voice makes my day better.<br>
+Even from far away, you feel close.<br>
+Distance doesn’t change what I feel.
+</div>
+<button class="secondary" onclick="go('home')">Back</button>
+`,
+
+future:`
+<h1>Our future</h1>
+<div class="subtitle">
+More late talks.<br>
+More laughs.<br>
+More memories.<br>
+And one day…<br>
+less distance between us.
+</div>
+<button class="secondary" onclick="go('home')">Back</button>
+`,
+
+message:`
+<h1>One last thing 🤍</h1>
+<div class="subtitle" style="color:var(--accent)">
+I just want you to know this.<br><br>
+I’m really happy to be with you.<br>
+You make my days better.<br>
+And whatever happens next,<br>
+I’m glad it’s you.
+</div>
+<button class="secondary" onclick="go('home')">Back</button>
+`
+};
+
+/* navigation */
+function go(page){
+ card.classList.add("fade");
+ setTimeout(()=>{
+   card.innerHTML=pages[page];
+   card.classList.remove("fade");
+ },250);
+}
+window.go=go;
+
+/* YES */
+yes.addEventListener("click",()=>{
+ music.play();
+ vibrate(60);
+ go("home");
+
+ for(let i=0;i<25;i++){
+   const s=document.createElement("div");
+   s.className="sparkle";
+   s.style.left=Math.random()*window.innerWidth+"px";
+   s.style.bottom="0";
+   s.innerHTML="🤍";
+   document.body.appendChild(s);
+   setTimeout(()=>s.remove(),3000);
+ }
 });
-
-/* background hearts */
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.style.left=Math.random()*window.innerWidth+"px";
-  h.innerHTML="💖";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),10000);
-},700);
 </script>
+
+</body>
+</html>
